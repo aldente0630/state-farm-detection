@@ -125,3 +125,23 @@ def load_tfrecord_dataset(
         buffer_size=tf.data.experimental.AUTOTUNE
     )
     return dataset
+
+
+def sample_beta_dist(size, concentration_x=0.2, concentration_y=0.2):
+    gamma_x_sample = tf.random.gamma(shape=[size], alpha=concentration_y)
+    gamma_y_sample = tf.random.gamma(shape=[size], alpha=concentration_x)
+    return gamma_x_sample / (gamma_x_sample + gamma_y_sample)
+
+
+def mixup_dataset(dataset1, dataset2, alpha=0.2):
+    x1, y1 = dataset1
+    x2, y2 = dataset2
+    batch_size = tf.shape(x1)[0]
+
+    lam = sample_beta_dist(batch_size, alpha, alpha)
+    lam_x = tf.reshape(lam, (batch_size, 1, 1, 1))
+    lam_y = tf.reshape(lam, (batch_size, 1))
+
+    x = x1 * lam_x + x2 * (1.0 - lam_x)
+    y = y1 * lam_y + y2 * (1.0 - lam_y)
+    return x, y
