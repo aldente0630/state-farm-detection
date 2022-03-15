@@ -73,35 +73,35 @@ def _parse_function(example_proto, num_classes=None, is_prediction=False):
         )
 
     example = tf.io.parse_single_example(example_proto, features)
-    image = tf.image.decode_jpeg(example["image/encoded"], channels=3)
+    img_arr = tf.image.decode_jpeg(example["image/encoded"], channels=3)
 
     if is_prediction:
-        return image, None
+        return img_arr, None
     return (
-        image,
+        img_arr,
         example["image/label"],
     )
 
 
-def identity_func(image=None):
-    return {"image": image}
+def identity_function(img_arr=None):
+    return {"image": img_arr}
 
 
-def preprocess_image(image, label, image_size, transforms):
-    def augment_function(img, img_size):
-        data = {"image": img}
-        aug_image = transforms(**data)["image"]
-        aug_image = tf.cast(aug_image / 255.0, tf.float32)
+def preprocess_image(image_array, label, image_size, normalize, transforms):
+    def augment_function(img_arr, img_size):
         img_size = img_size if isinstance(img_size, Iterable) else (img_size, img_size)
-        aug_image = tf.image.resize(aug_image, size=[img_size[0], img_size[1]])
-        return aug_image
+        data = {"image": img_arr}
+        img_arr = transforms(**data)["image"]
+        img_arr = tf.cast(img_arr / 255.0 if normalize else img_arr, tf.float32)
+        img_arr = tf.image.resize(img_arr, size=[img_size[0], img_size[1]])
+        return img_arr
 
-    augmented_image = tf.numpy_function(
-        func=augment_function, inp=[image, image_size], Tout=tf.float32
+    image_array = tf.numpy_function(
+        func=augment_function, inp=[image_array, image_size], Tout=tf.float32
     )
     if label is None:
-        return augmented_image
-    return augmented_image, label
+        return image_array
+    return image_array, label
 
 
 def load_tfrecord_dataset(
@@ -113,6 +113,7 @@ def load_tfrecord_dataset(
     buffer_size=10240,
     num_classes=None,
     is_prediction=False,
+    normalize=True,
 ):
     raw_dataset = tf.data.TFRecordDataset(filenames=tfrecord_names).repeat()
     if shuffle:
@@ -122,7 +123,12 @@ def load_tfrecord_dataset(
         num_parallel_calls=tf.data.experimental.AUTOTUNE,
     )
     dataset = dataset.map(
-        partial(preprocess_image, image_size=image_size, transforms=transforms),
+        partial(
+            preprocess_image,
+            image_size=image_size,
+            normalize=normalize,
+            transforms=transforms,
+        ),
         num_parallel_calls=tf.data.experimental.AUTOTUNE,
     )
     dataset = dataset.batch(batch_size).prefetch(
