@@ -1,6 +1,6 @@
 # State Farm Distracted Driver Detection
 ## Goals
-* Experiment with various modern deep learning techniques from the paper, [Bag of Tricks for Image Classification with Convolutional Neural Networks](https://arxiv.org/abs/1812.01187) through the image classification task.
+* Experiment with various modern deep learning techniques from the paper, [Bag of Tricks for Image Classification with Convolutional Neural Networks](https://arxiv.org/abs/1812.01187) through an image classification task.
 * Build a high-speed and efficient data pipeline using the *TFRecord* file format, *Dataset* API, and the `albumentations` library.
 * Explain a model via [Grad-CAM](https://arxiv.org/abs/1610.02391) and host it using *TF Serving* or *SageMaker* to enable real-time inference.
 * (Optional) Effectively manage experiments through the `wandb` library.
@@ -12,7 +12,7 @@
 ## Experimental Setup
 * [EfficientNet-B0](https://arxiv.org/abs/1905.11946) was used as the base model. On top of that, fully connected layers and dropout layers were added.
 * The batch size was set to 32, the number of epochs was set to 500, and an early stopping option was applied.
-* [A cosine decay schedule with restarts](https://arxiv.org/pdf/1608.03983.pdf) was used. In this case, the initial learning rate was set to 0.001 and the first decay step was set to 1,000.
+* [A Cosine Decay Schedule with Restarts](https://arxiv.org/pdf/1608.03983.pdf) was used. In this case, the initial learning rate was set to 0.001 and the first decay step was set to 1,000.
 * The images were resized to 224 x 224 and image data augmentation through rotation, scaling, and shifting was applied. Below are examples of data augmentation.
 
 ![Augmentation](./imgs/state-farm-detection1.jpg)
@@ -38,6 +38,6 @@
 
 ## Model Serving
 ### TF Serving
-* You need to download and run the docker image via `scripts/run.sh` file. Then, you can test model inference through a locally hosted TF Serving.
+* You need to download and run the *Docker* image via `scripts/run.sh` file. Then, you can test model inference through a locally hosted *TF Serving*.
 ### SageMaker 
 * T.B.C.
