@@ -1,3 +1,4 @@
+# Specify the directory where the model file is located and the model version.
 PROJECT_DIR=~/projects/state-farm-detection; VERSION=1
 PROJECT_DIR=${PROJECT_DIR}/models/serving/${VERSION}
 

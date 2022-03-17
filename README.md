@@ -13,7 +13,7 @@
 * [EfficientNet-B0](https://arxiv.org/abs/1905.11946) was used as the base model. On top of that, fully connected layers and dropout layers were added.
 * The batch size was set to 32, the number of epochs was set to 500, and an early stopping option was applied.
 * [A cosine decay schedule with restarts](https://arxiv.org/pdf/1608.03983.pdf) was used. In this case, the initial learning rate was set to 0.001 and the first decay step was set to 1,000.
-* The image size was resized to 224 x 224 and image data augmentation through rotation, scaling, and shifting was applied. Below are examples of data augmentation.
+* The images were resized to 224 x 224 and image data augmentation through rotation, scaling, and shifting was applied. Below are examples of data augmentation.
 
 ![Augmentation](./imgs/state-farm-detection1.jpg)
 
