@@ -83,8 +83,8 @@ def _parse_function(example_proto, num_classes=None, is_prediction=False):
     )
 
 
-def identity_function(img_arr=None):
-    return {"image": img_arr}
+def identity_function(image=None):
+    return {"image": image}
 
 
 def preprocess_image(image_array, label, image_size, normalize, transforms):

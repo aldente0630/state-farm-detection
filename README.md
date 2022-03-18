@@ -2,7 +2,7 @@
 ## Goals
 * Experiment with various modern deep learning techniques from the paper, [Bag of Tricks for Image Classification with Convolutional Neural Networks](https://arxiv.org/abs/1812.01187) through an image classification task.
 * Build a high-speed and efficient data pipeline using the *TFRecord* file format, *Dataset* API, and the `albumentations` library.
-* Explain a model via [Grad-CAM](https://arxiv.org/abs/1610.02391) and host it using *TF Serving* or *SageMaker* to enable real-time inference.
+* Explain the model via [Grad-CAM](https://arxiv.org/abs/1610.02391) and host it using *TF Serving* or *SageMaker* to enable real-time inference.
 * (Optional) Effectively manage experiments through the `wandb` library.
   
 ## Requirements
@@ -29,7 +29,7 @@
 |                                                                                    RAdam + [Mixup](https://arxiv.org/abs/1710.09412)                                                                                    |    0.8331    |    0.6423     |
 |                                                                            RAdam + [Label Smoothing](https://arxiv.org/abs/1906.02629) (0.1)                                                                            |    0.9047    |    0.7891     |
 |                                                                                              RAdam + Mixup + TTA (3 times)                                                                                              |    0.7434    |    0.5777     |
-|                                                                                        RAdam + Mixup + TTA + 5-fold CV Ensemble                                                                                         |              |               |
+|                                                                                        RAdam + Mixup + TTA + 5-fold CV Ensemble                                                                                         |    0.6877    |    0.5419     |
 | [Pseudo Labeling](https://www.researchgate.net/publication/280581078_Pseudo-Label_The_Simple_and_Efficient_Semi-Supervised_Learning_Method_for_Deep_Neural_Networks) (> 0.9) + RAdam + Mixup + TTA + 5-fold CV Ensemble |              |               |
 
 ### Model Explainability with Grad-CAM
