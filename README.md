@@ -30,7 +30,7 @@
 |                                                                            RAdam + [Label Smoothing](https://arxiv.org/abs/1906.02629) (0.1)                                                                            |    0.9047    |    0.7891     |
 |                                                                                              RAdam + Mixup + TTA (3 times)                                                                                              |    0.7434    |    0.5777     |
 |                                                                                        RAdam + Mixup + TTA + 5-fold CV Ensemble                                                                                         |    0.6877    |    0.5419     |
-| [Pseudo Labeling](https://www.researchgate.net/publication/280581078_Pseudo-Label_The_Simple_and_Efficient_Semi-Supervised_Learning_Method_for_Deep_Neural_Networks) (> 0.9) + RAdam + Mixup + TTA + 5-fold CV Ensemble |              |               |
+| [Pseudo Labeling](https://www.researchgate.net/publication/280581078_Pseudo-Label_The_Simple_and_Efficient_Semi-Supervised_Learning_Method_for_Deep_Neural_Networks) (> 0.9) + RAdam + Mixup + TTA + 5-fold CV Ensemble |    0.6504    |    0.5169     |
 
 ### Model Explainability with Grad-CAM
 * 20 samples were randomly selected from the test set and visualized using the Grad-CAM technique. Labels shown are predicted.
