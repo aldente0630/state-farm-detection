@@ -1,6 +1,8 @@
 albumentations==1.0.3
+awscli==1.22.81
 black==21.4b0
 gpustat==0.6.0
+sagemaker-python-sdk==2.80.0
 tensorflow==2.4.1
 tensorflow-addons==0.14.0
 tensorflow-hub==0.12.0

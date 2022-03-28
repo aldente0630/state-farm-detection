@@ -32,7 +32,7 @@ def serialize_example(image_string, file_name, label=None):
     return example_proto.SerializeToString()
 
 
-def dump_tfrecord(examples, output_path, num_classes=None, is_prediction=False):
+def dump_tfrecord(examples, output_path, n_classes=None, is_prediction=False):
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
     with tf.io.TFRecordWriter(output_path) as writer:
@@ -43,9 +43,9 @@ def dump_tfrecord(examples, output_path, num_classes=None, is_prediction=False):
             else:
                 img_path, label, file_name = example
                 label = int(re.search("[0-9]+", label, re.IGNORECASE).group())
-                if num_classes is not None:
+                if n_classes is not None:
                     label = tf.keras.utils.to_categorical(
-                        label, num_classes=num_classes, dtype="float32"
+                        label, num_classes=n_classes, dtype="float32"
                     )
 
             image_string = open(img_path, "rb").read()
@@ -60,7 +60,7 @@ def dump_tfrecord(examples, output_path, num_classes=None, is_prediction=False):
             )
 
 
-def _parse_function(example_proto, num_classes=None, is_prediction=False):
+def _parse_function(example_proto, n_classes=None, is_prediction=False):
     features = {
         "image/encoded": tf.io.FixedLenFeature([], tf.string),
         "image/file_name": tf.io.FixedLenFeature([], tf.string),
@@ -68,8 +68,8 @@ def _parse_function(example_proto, num_classes=None, is_prediction=False):
     if not is_prediction:
         features["image/label"] = (
             tf.io.FixedLenFeature([], tf.float32)
-            if num_classes is None
-            else tf.io.FixedLenFeature([num_classes], tf.float32)
+            if n_classes is None
+            else tf.io.FixedLenFeature([n_classes], tf.float32)
         )
 
     example = tf.io.parse_single_example(example_proto, features)
@@ -111,7 +111,7 @@ def load_tfrecord_dataset(
     batch_size,
     shuffle=True,
     buffer_size=10240,
-    num_classes=None,
+    n_classes=None,
     is_prediction=False,
     normalize=True,
 ):
@@ -119,7 +119,7 @@ def load_tfrecord_dataset(
     if shuffle:
         raw_dataset = raw_dataset.shuffle(buffer_size=buffer_size)
     dataset = raw_dataset.map(
-        partial(_parse_function, num_classes=num_classes, is_prediction=is_prediction),
+        partial(_parse_function, n_classes=n_classes, is_prediction=is_prediction),
         num_parallel_calls=tf.data.experimental.AUTOTUNE,
     )
     dataset = dataset.map(

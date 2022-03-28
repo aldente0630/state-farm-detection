@@ -40,4 +40,4 @@
 ### TF Serving
 * You need to download and run the *Docker* image via `scripts/run.sh` file. Then, you can test model inference through a locally hosted *TF Serving*.
 ### SageMaker 
-* T.B.C.
+* *SageMaker* allows you to train TensorFlow models and deploy endpoints for serving. You can also use the *SageMaker* *Estimator*'s *Pipe* mode to train a model without downloading a dataset directly.

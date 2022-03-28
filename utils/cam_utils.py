@@ -1,4 +1,5 @@
 import matplotlib.cm as cm
+import matplotlib.pyplot as plt
 import numpy as np
 import tensorflow as tf
 
@@ -50,3 +51,19 @@ def make_gradcam_img(img_path, heatmap_arr, alpha=0.4, cam_path=None):
         )
         superimposed_img.save(cam_path)
     return superimposed_img_arr
+
+
+def view_img(img_arrs, labels, n_samples, label_names=None):
+    n_cols = 5
+    n_rows = n_samples // n_cols if n_samples % n_cols == 0 else n_samples // n_cols + 1
+    fig = plt.figure(figsize=(n_cols * 4, n_rows * 3))
+    for i in range(n_samples):
+        ax = fig.add_subplot(n_rows, n_cols, i + 1, xticks=[], yticks=[])
+        ax.imshow(img_arrs[i])
+        label = (
+            labels[i].decode("utf-8")
+            if label_names is None
+            else label_names[f"c{str(labels[i])}"]
+        )
+        ax.set_title(f"Label: {label}")
+        ax.axis("off")
